@@ -1,0 +1,21 @@
+<div class="panel-header panel-header-sm">
+</div>
+<div class="main-content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header row">
+                    <div class="col-sm-4">
+                        <h4 class="card-title">Upload JSON File</h4>
+                    </div>
+                    <div class="col-sm-4">
+                        <form [formGroup]="form">
+                            <button class="btn-primary" (click)="filePicker.click()">Upload File</button>
+                            <input type="file" #filePicker (change)="onFilePicked($event)">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
