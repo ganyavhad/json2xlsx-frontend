@@ -11,6 +11,11 @@
                     <div class="col-sm-4">
                         <form [formGroup]="form">
                             <button class="btn-primary" (click)="filePicker.click()">Upload File</button>
+                            <div *ngIf="status">
+                                <span *ngIf="!uploaded" class="status badge badge-primary">Uploading</span>
+                                <span *ngIf="uploaded" class="status badge badge-success">Uploaded</span>
+                            </div>
+
                             <input type="file" #filePicker (change)="onFilePicked($event)">
                         </form>
                     </div>

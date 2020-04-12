@@ -9,6 +9,8 @@ import { ApiService } from '../api.service';
 })
 export class FileuploadComponent implements OnInit {
   form: FormGroup;
+  status: boolean;
+  uploaded: boolean;
 
   constructor(public apiService: ApiService) {}
 
@@ -18,6 +20,8 @@ export class FileuploadComponent implements OnInit {
         validators: [Validators.required],
       }),
     });
+    this.status = false;
+    this.uploaded = false;
   }
   onFilePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
@@ -25,6 +29,17 @@ export class FileuploadComponent implements OnInit {
     this.form.patchValue({ file: file });
     const reader = new FileReader();
     reader.readAsDataURL(file);
-    this.apiService.uploadFile(this.form.value.file);
+    this.status = true;
+    this.uploaded = false;
+    this.apiService.uploadFile(this.form.value.file).subscribe(
+      (res) => {
+        console.log(res);
+        this.uploaded = true;
+      },
+      (err) => {
+        this.uploaded = false;
+        console.log(err);
+      }
+    );
   }
 }

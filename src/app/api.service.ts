@@ -10,13 +10,9 @@ export class ApiService {
   uploadFile(file: File) {
     const uploadData = new FormData();
     uploadData.append('file', file);
-    this.httpClient
-      .post<{ message: string }>(
-        environment.serverUrl + '/JSONData/upload',
-        uploadData
-      )
-      .subscribe((response) => {
-        console.log('response==>', response);
-      });
+    return this.httpClient.post<{ message: string }>(
+      environment.serverUrl + '/JSONData/upload',
+      uploadData
+    );
   }
 }
