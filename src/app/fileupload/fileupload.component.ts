@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ApiService } from '../api.service';
-
+import { File } from './../file.model';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-fileupload',
   templateUrl: './fileupload.component.html',
@@ -11,6 +12,27 @@ export class FileuploadComponent implements OnInit {
   form: FormGroup;
   status: boolean;
   uploaded: boolean;
+  files: File[] = [];
+  isFiles = false;
+  message = 'Loading...';
+  loadFiles() {
+    this.apiService.loadFiles().subscribe(
+      (res: File[]) => {
+        console.log(res);
+        this.files = res;
+        this.isFiles = true;
+      },
+      (err) => {
+        console.log(err);
+        this.isFiles = false;
+        if (err.error == 'noDataFound') {
+          this.message = 'No Data Found';
+        } else {
+          this.message = 'Failed to load data';
+        }
+      }
+    );
+  }
 
   constructor(public apiService: ApiService) {}
 
@@ -22,6 +44,7 @@ export class FileuploadComponent implements OnInit {
     });
     this.status = false;
     this.uploaded = false;
+    this.loadFiles();
   }
   onFilePicked(event: Event) {
     const file = (event.target as HTMLInputElement).files[0];
@@ -41,5 +64,8 @@ export class FileuploadComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+  donwloadExcel(id) {
+    window.open(`${environment.serverUrl}/JSONData/downloadExcel/${id}`);
   }
 }

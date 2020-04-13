@@ -15,4 +15,7 @@ export class ApiService {
       uploadData
     );
   }
+  loadFiles() {
+    return this.httpClient.get(environment.serverUrl + '/File');
+  }
 }
